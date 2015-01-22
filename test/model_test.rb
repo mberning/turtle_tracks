@@ -108,6 +108,68 @@ class ModelTester < MiniTest::Unit::TestCase
     assert_equal expected_state, @model.to_s
   end
 
+  def test_edge_cases
+    @model.reset
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+
+    expected_state =
+'XXXXXXXXXXX
+X.........X
+X.........X
+X.........X
+X.........X
+X....XXXXXX
+X.........X
+X.........X
+X.........X
+X.........X
+XXXXXXXXXXX
+'
+    assert_equal expected_state, @model.to_s
+  end
+
+  def test_corner_cases
+    @model.reset
+    @model.rotate_clockwise(45)
+    @model.move_forward(100)
+    @model.move_backward(5)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.move_backward(5)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.move_backward(5)
+    @model.rotate_clockwise(90)
+    @model.move_forward(100)
+    @model.move_backward(5)
+
+    expected_state =
+'X.........X
+.X.......X.
+..X.....X..
+...X...X...
+....X.X....
+.....X.....
+....X.X....
+...X...X...
+..X.....X..
+.X.......X.
+X.........X
+'
+    assert_equal expected_state, @model.to_s
+  end
+
   def heading_tester(heading, expected_x, expected_y)
     model = TurtleTracks::Model.new(5)
     heading_vector = model.send(:vector_from_heading, heading)

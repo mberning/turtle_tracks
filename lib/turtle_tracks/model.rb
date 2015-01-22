@@ -3,6 +3,11 @@ module TurtleTracks
     attr_reader :pos, :heading
 
     def initialize(board_size)
+      @board_size = board_size
+      reset(@board_size)
+    end
+
+    def reset(board_size = @board_size)
       @board = Array.new(board_size) { Array.new(board_size, '.') }
       @pos = [(board_size / 2).floor, (board_size / 2).floor]
       @heading = 0
@@ -43,10 +48,19 @@ module TurtleTracks
       move_vector = move_vector.collect { |v| - v } if backward
 
       steps.times do
-        @pos[0] -= move_vector[0]
-        @pos[1] += move_vector[1]
-        mark_cell
+        new_x = @pos[0] - move_vector[0]
+        new_y = @pos[1] + move_vector[1]
+        new_pos = [new_x, new_y]
+        if valid_position? new_pos
+          @pos = new_pos
+          mark_cell
+        end
       end
+    end
+
+    def valid_position?(position)
+      @valid_range ||= (0...@board_size)
+      @valid_range.include?(position[0]) && @valid_range.include?(position[1])
     end
 
     def mark_cell
