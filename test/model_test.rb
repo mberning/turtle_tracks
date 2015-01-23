@@ -1,7 +1,7 @@
 require_relative File.join('..', 'lib', 'turtle_tracks')
 require 'minitest/autorun'
 
-class ModelTester < MiniTest::Unit::TestCase
+class ModelTester < Minitest::Test
   def setup
     @model = TurtleTracks::Model.new(11)
   end
